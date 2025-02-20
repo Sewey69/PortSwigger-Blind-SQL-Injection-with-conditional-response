@@ -107,7 +107,7 @@ print(f"Final password: {password}")
 
 This script rapidly extracts the password, completing the attack in under a minute.
 
-![Final Output](./Screenshots/output.png)
+![Fincal Output](./output.png)
 
 ---
 
